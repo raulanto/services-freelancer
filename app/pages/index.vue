@@ -3,6 +3,46 @@ import { Button } from '~/components/ui/button'
 import Header from '~/components/Header.vue'
 import LightRays from '~/components/LightRays/LightRays.vue'
 import WhyCustom from '~/components/WhyCustom.vue'
+import { onMounted, onUnmounted, ref } from 'vue'
+import gsap from 'gsap'
+
+const heroSection = ref(null)
+const heroBg = ref(null)
+const heroContent = ref(null)
+let ctx: gsap.Context
+
+onMounted(() => {
+  ctx = gsap.context(() => {
+    // Parallax para la imagen de fondo
+    gsap.to(heroBg.value, {
+      yPercent: 30,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: heroSection.value,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+      }
+    })
+    
+    // Parallax y desvanecimiento para el contenido principal
+    gsap.to(heroContent.value, {
+      yPercent: 50,
+      opacity: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: heroSection.value,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+      }
+    })
+  })
+})
+
+onUnmounted(() => {
+  ctx?.revert()
+})
 </script>
 
 <template>
@@ -12,7 +52,7 @@ import WhyCustom from '~/components/WhyCustom.vue'
     <Header />
 
     <!-- Hero Section -->
-    <section class="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center">
+    <section ref="heroSection" class="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center">
         <!-- LightRays Component at the top -->
         <div class="absolute top-0 left-0 w-full h-full pointer-events-none z-0 mix-blend-screen opacity-70">
             <ClientOnly>
@@ -31,14 +71,14 @@ import WhyCustom from '~/components/WhyCustom.vue'
         </div>
 
         <!-- Background Image -->
-        <div class="absolute inset-0 w-full h-full z-0">
+        <div ref="heroBg" class="absolute inset-0 w-full h-full z-0 scale-110">
             <img src="~/assets/img/HJ43YeJboAAPOH6.jpeg" alt="Background"
                 class="w-full h-full object-cover mix-blend-screen opacity-60" />
             <div class="absolute inset-0 bg-gradient-to-b from-transparent via-neutral-950/50 to-neutral-950 pointer-events-none"></div>
         </div>
 
         <!-- Hero Content -->
-        <main class="relative z-10 text-center px-4 max-w-4xl mt-32">
+        <main ref="heroContent" class="relative z-10 text-center px-4 max-w-4xl mt-32">
             <h1 class="text-6xl md:text-8xl font-serif text-neutral-100 tracking-tight leading-[1.1] mb-8 font-medium">
                 Código a medida para <span class="italic text-neutral-300">negocios que escalan.</span>
             </h1>

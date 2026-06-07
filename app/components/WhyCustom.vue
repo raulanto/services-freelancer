@@ -1,19 +1,72 @@
 <script setup lang="ts">
 import { XCircle, CheckCircle, Boxes, ShieldCheck, Users, LineChart } from '@lucide/vue'
 import Skibg from '~/components/Skibg.vue'
+import { onMounted, onUnmounted, ref } from 'vue'
+import gsap from 'gsap'
+
+const sectionRef = ref(null)
+const bgRef = ref(null)
+const card1Ref = ref(null)
+const card2Ref = ref(null)
+let ctx: gsap.Context
+
+onMounted(() => {
+  ctx = gsap.context(() => {
+    // Parallax background
+    gsap.to(bgRef.value, {
+      yPercent: 20,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: sectionRef.value,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: true
+      }
+    })
+
+    // Float-up animation for cards with different scrub speeds
+    gsap.from(card1Ref.value, {
+      y: 100,
+      opacity: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: sectionRef.value,
+        start: 'top 80%',
+        end: 'top 30%',
+        scrub: 1
+      }
+    })
+
+    gsap.from(card2Ref.value, {
+      y: 150,
+      opacity: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: sectionRef.value,
+        start: 'top 80%',
+        end: 'top 30%',
+        scrub: 1.5
+      }
+    })
+  })
+})
+
+onUnmounted(() => {
+  ctx?.revert()
+})
 </script>
 
 <template>
-  <section class="relative w-full py-32 overflow-hidden">
+  <section ref="sectionRef" class="relative w-full py-32 overflow-hidden h-screen">
     <!-- Skibg Background -->
-    <div class="absolute inset-0 w-full h-full z-0 pointer-events-none ">
+    <div ref="bgRef" class="absolute inset-0 w-full h-full z-0 pointer-events-none scale-[1.2] -top-[10%]">
       <ClientOnly>
         <Skibg 
         />
       </ClientOnly>
     </div>
 
-    <div class="w-full max-w-5xl mx-auto px-4 relative z-10">
+    <div class="w-full max-w-5xl mx-auto px-4 relative z-10 mt-40">
       <div class="text-center mb-20">
       <h2 class="text-4xl md:text-6xl font-serif text-neutral-100 mb-6 tracking-tight">
         El problema del <span class="italic text-neutral-400">software genérico</span>
@@ -25,7 +78,7 @@ import Skibg from '~/components/Skibg.vue'
 
     <div class="grid md:grid-cols-2 gap-8 items-stretch">
       <!-- El Problema: Software Genérico -->
-      <div class="bg-neutral-900/40 border border-neutral-800/80 rounded-3xl p-10 backdrop-blur-md relative overflow-hidden group transition-colors hover:bg-neutral-900/60">
+      <div ref="card1Ref" class="bg-neutral-900/40 border border-neutral-800/80 rounded-3xl p-10 backdrop-blur-md relative overflow-hidden group transition-colors hover:bg-neutral-900/60">
         <div class="flex items-center gap-4 mb-10">
           <div class="p-3 bg-neutral-950 rounded-2xl border border-neutral-800">
             <XCircle class="size-6 text-red-400/80" />
@@ -59,7 +112,7 @@ import Skibg from '~/components/Skibg.vue'
       </div>
 
       <!-- La Solución: Software a Medida -->
-      <div class="bg-neutral-900/80 border border-neutral-700/60 rounded-3xl p-10 backdrop-blur-xl relative overflow-hidden shadow-[0_0_40px_-15px_rgba(255,255,255,0.1)] group transition-all hover:border-neutral-600">
+      <div ref="card2Ref" class="bg-neutral-900/80 border border-neutral-700/60 rounded-3xl p-10 backdrop-blur-xl relative overflow-hidden shadow-[0_0_40px_-15px_rgba(255,255,255,0.1)] group transition-all hover:border-neutral-600">
         <div class="absolute inset-0 bg-gradient-to-br from-neutral-800/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div class="flex items-center gap-4 mb-10 relative z-10">
           <div class="p-3 bg-neutral-950 rounded-2xl border border-neutral-700">
