@@ -3,6 +3,7 @@ import { Button } from '~/components/ui/button'
 import Header from '~/components/Header.vue'
 import LightRays from '~/components/LightRays/LightRays.vue'
 import WhyCustom from '~/components/WhyCustom.vue'
+import SpecializedServices from '~/components/SpecializedServices.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import gsap from 'gsap'
 
@@ -78,16 +79,16 @@ onUnmounted(() => {
         </div>
 
         <!-- Hero Content -->
-        <main ref="heroContent" class="relative z-10 text-center px-4 max-w-4xl mt-32">
-            <h1 class="text-6xl md:text-8xl font-serif text-neutral-100 tracking-tight leading-[1.1] mb-8 font-medium">
+        <main ref="heroContent" class="relative z-10 text-center px-4 max-w-4xl mt-24">
+            <h1 class="text-5xl md:text-7xl font-serif text-neutral-100 tracking-tight leading-[1.1] mb-6 font-medium">
                 Código a medida para <span class="italic text-neutral-300">negocios que escalan.</span>
             </h1>
-            <p class="text-xl md:text-2xl text-neutral-100 mb-12 font-light max-w-2xl mx-auto">
+            <p class="text-lg md:text-xl text-neutral-100 mb-8 font-light max-w-2xl mx-auto">
                 Automatiza procesos y eleva tu presencia digital <br /> con desarrollo de software profesional.
             </p>
 
             <Button size="lg" variant="secondary"
-                class="rounded-full bg-neutral-800/80 backdrop-blur-sm text-neutral-200 hover:bg-neutral-700 hover:text-white border border-neutral-700/50 px-8 py-6 text-lg font-medium transition-all">
+                class="rounded-full bg-neutral-800/80 backdrop-blur-sm text-neutral-200 hover:bg-neutral-700 hover:text-white border border-neutral-700/50 px-6 h-12 text-base font-medium transition-all">
                 Comenzar proyecto
             </Button>
         </main>
@@ -95,6 +96,9 @@ onUnmounted(() => {
 
     <!-- Why Custom Section -->
     <WhyCustom />
+
+    <!-- Specialized Services Section -->
+    <SpecializedServices />
 
   </div>
 </template>
