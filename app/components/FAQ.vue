@@ -71,31 +71,31 @@ onUnmounted(() => ctx?.revert())
 </script>
 
 <template>
-  <section ref="sectionRef" class="relative w-full py-32 bg-neutral-950 overflow-hidden">
+  <section ref="sectionRef" class="relative w-full py-32 bg-neutral-50 dark:bg-neutral-950 overflow-hidden transition-colors duration-300">
     <!-- Decorative grid lines -->
-    <div class="absolute inset-0 pointer-events-none opacity-[0.03]"
-      style="background-image: linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px); background-size: 80px 80px;">
+    <div class="absolute inset-0 pointer-events-none opacity-[0.05] dark:opacity-[0.03]"
+      style="background-image: linear-gradient(rgba(0,0,0,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.8) 1px, transparent 1px); background-size: 80px 80px;">
     </div>
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_100%,rgba(255,255,255,0.03)_0%,transparent_70%)] pointer-events-none"></div>
+    <div class="absolute inset-0 dark:bg-[radial-gradient(ellipse_60%_60%_at_50%_100%,rgba(255,255,255,0.03)_0%,transparent_70%)] bg-[radial-gradient(ellipse_60%_60%_at_50%_100%,rgba(0,0,0,0.03)_0%,transparent_70%)] pointer-events-none"></div>
 
     <div class="max-w-5xl mx-auto px-4 relative z-10">
 
       <!-- Header -->
       <div ref="titleRef" class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
         <div>
-          <p class="text-neutral-500 font-mono text-xs tracking-[0.25em] uppercase mb-4">FAQ</p>
-          <h2 class="text-4xl md:text-6xl font-serif text-neutral-100 tracking-tight leading-tight">
+          <p class="text-neutral-500 font-mono text-xs tracking-[0.25em] uppercase mb-4 transition-colors">FAQ</p>
+          <h2 class="text-4xl md:text-6xl font-serif text-neutral-900 dark:text-neutral-100 tracking-tight leading-tight transition-colors">
             Preguntas<br />
-            <span class="italic text-neutral-400">frecuentes</span>
+            <span class="italic text-neutral-500 dark:text-neutral-400">frecuentes</span>
           </h2>
         </div>
-        <p class="text-neutral-400 font-light max-w-xs leading-relaxed text-base md:text-right">
+        <p class="text-neutral-600 dark:text-neutral-400 font-light max-w-xs leading-relaxed text-base md:text-right transition-colors">
           Resolvemos las dudas más comunes antes de la primera llamada para que puedas tomar decisiones con información real.
         </p>
       </div>
 
       <!-- FAQ Items -->
-      <div class="divide-y divide-neutral-800/60">
+      <div class="divide-y divide-neutral-200 dark:divide-neutral-800/60 transition-colors">
         <div
           v-for="(faq, i) in faqs"
           :key="i"
@@ -107,27 +107,27 @@ onUnmounted(() => ctx?.revert())
             @click="toggle(i)"
           >
             <!-- Index label pill -->
-            <span class="shrink-0 mt-0.5 text-xs font-mono text-neutral-600 border border-neutral-800 rounded-lg px-2 py-1 transition-colors duration-300 group-hover:border-neutral-600 group-hover:text-neutral-400">
+            <span class="shrink-0 mt-0.5 text-xs font-mono text-neutral-500 dark:text-neutral-600 border border-neutral-300 dark:border-neutral-800 rounded-lg px-2 py-1 transition-colors duration-300 group-hover:border-neutral-500 dark:group-hover:border-neutral-600 group-hover:text-neutral-700 dark:group-hover:text-neutral-400">
               {{ String(i + 1).padStart(2, '0') }}
             </span>
 
             <!-- Question -->
             <span class="flex-1 text-lg md:text-xl font-medium transition-colors duration-300"
-              :class="openIndex === i ? 'text-white' : 'text-neutral-300 group-hover:text-white'">
+              :class="openIndex === i ? 'text-neutral-900 dark:text-white' : 'text-neutral-600 dark:text-neutral-300 group-hover:text-neutral-900 dark:group-hover:text-white'">
               {{ faq.q }}
             </span>
 
             <!-- Category tag -->
-            <span class="hidden md:block shrink-0 text-xs font-medium text-neutral-600 bg-neutral-900 border border-neutral-800 rounded-full px-3 py-1 transition-all duration-300"
-              :class="openIndex === i ? 'text-neutral-300 border-neutral-600' : ''">
+            <span class="hidden md:block shrink-0 text-xs font-medium text-neutral-600 dark:text-neutral-400 bg-neutral-200 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-800 rounded-full px-3 py-1 transition-all duration-300"
+              :class="openIndex === i ? 'text-neutral-800 dark:text-neutral-300 border-neutral-400 dark:border-neutral-600' : ''">
               {{ faq.label }}
             </span>
 
             <!-- Icon -->
             <div class="shrink-0 w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-300 mt-0.5"
               :class="openIndex === i
-                ? 'bg-neutral-100 border-neutral-100 text-neutral-900'
-                : 'bg-transparent border-neutral-700 text-neutral-400 group-hover:border-neutral-500 group-hover:text-neutral-200'">
+                ? 'bg-neutral-800 dark:bg-neutral-100 border-neutral-800 dark:border-neutral-100 text-white dark:text-neutral-900'
+                : 'bg-transparent border-neutral-300 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 group-hover:border-neutral-400 dark:group-hover:border-neutral-500 group-hover:text-neutral-800 dark:group-hover:text-neutral-200'">
               <Plus v-if="openIndex !== i" class="size-4" />
               <Minus v-else class="size-4" />
             </div>
@@ -136,7 +136,7 @@ onUnmounted(() => ctx?.revert())
           <!-- Answer panel (GSAP-controlled height) -->
           <div class="faq-panel overflow-hidden h-0 opacity-0">
             <div class="pb-8 pl-[3.25rem] md:pl-[4rem]">
-              <p class="text-neutral-400 leading-relaxed text-base md:text-lg font-light max-w-3xl">
+              <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed text-base md:text-lg font-light max-w-3xl transition-colors">
                 {{ faq.a }}
               </p>
             </div>
@@ -146,10 +146,10 @@ onUnmounted(() => ctx?.revert())
 
       <!-- CTA below FAQ -->
       <div class="mt-20 text-center">
-        <p class="text-neutral-500 mb-6 text-base">¿Tienes una pregunta específica que no está aquí?</p>
-        <button class="group inline-flex items-center gap-3 bg-neutral-900 border border-neutral-700 hover:border-neutral-500 hover:bg-neutral-800 text-neutral-200 rounded-full px-8 py-4 text-base font-medium transition-all duration-300">
+        <p class="text-neutral-500 dark:text-neutral-500 mb-6 text-base transition-colors">¿Tienes una pregunta específica que no está aquí?</p>
+        <button class="group inline-flex items-center gap-3 bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 hover:border-neutral-400 dark:hover:border-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-900 dark:text-neutral-200 rounded-full px-8 py-4 text-base font-medium transition-all duration-300">
           <span>Agendar una llamada directa</span>
-          <span class="w-6 h-6 rounded-full bg-neutral-700 group-hover:bg-neutral-600 flex items-center justify-center transition-colors duration-300">
+          <span class="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700 group-hover:bg-neutral-300 dark:group-hover:bg-neutral-600 flex items-center justify-center transition-colors duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3">
               <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06Z" clip-rule="evenodd" />
             </svg>

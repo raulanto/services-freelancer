@@ -66,7 +66,7 @@ onUnmounted(() => ctx?.revert())
 </script>
 
 <template>
-  <section ref="sectionRef" class="relative w-full py-32 bg-neutral-950 overflow-hidden">
+  <section ref="sectionRef" class="relative w-full py-32 bg-white dark:bg-neutral-950 overflow-hidden transition-colors duration-300">
 
     <!-- Dramatic background -->
     <div class="absolute inset-0 pointer-events-none">
@@ -76,22 +76,22 @@ onUnmounted(() => ctx?.revert())
     </div>
 
     <!-- Top fade -->
-    <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-neutral-950 to-transparent z-20 pointer-events-none"></div>
+    <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white dark:from-neutral-950 to-transparent z-20 pointer-events-none transition-colors duration-300"></div>
     <!-- Bottom fade -->
-    <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-neutral-950 to-transparent z-20 pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white dark:from-neutral-950 to-transparent z-20 pointer-events-none transition-colors duration-300"></div>
     <!-- Left fade -->
-    <div class="absolute top-0 left-0 bottom-0 w-32 bg-gradient-to-r from-neutral-950 to-transparent z-20 pointer-events-none"></div>
+    <div class="absolute top-0 left-0 bottom-0 w-32 bg-gradient-to-r from-white dark:from-neutral-950 to-transparent z-20 pointer-events-none transition-colors duration-300"></div>
     <!-- Right fade -->
-    <div class="absolute top-0 right-0 bottom-0 w-32 bg-gradient-to-l from-neutral-950 to-transparent z-20 pointer-events-none"></div>
+    <div class="absolute top-0 right-0 bottom-0 w-32 bg-gradient-to-l from-white dark:from-neutral-950 to-transparent z-20 pointer-events-none transition-colors duration-300"></div>
 
     <div class="relative z-10">
       <!-- Title -->
       <div ref="titleRef" class="max-w-6xl mx-auto px-4 mb-20 text-center">
-        <p class="text-neutral-500 font-mono text-xs tracking-[0.25em] uppercase mb-4">Stack Tecnológico</p>
-        <h2 class="text-4xl md:text-6xl font-serif text-neutral-100 tracking-tight mb-6">
-          El <span class="italic text-neutral-400">arsenal</span>
+        <p class="text-neutral-500 font-mono text-xs tracking-[0.25em] uppercase mb-4 transition-colors">Stack Tecnológico</p>
+        <h2 class="text-4xl md:text-6xl font-serif text-neutral-900 dark:text-neutral-100 tracking-tight mb-6 transition-colors">
+          El <span class="italic text-neutral-500 dark:text-neutral-400">arsenal</span>
         </h2>
-        <p class="text-lg text-neutral-400 max-w-xl mx-auto font-light leading-relaxed">
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-xl mx-auto font-light leading-relaxed transition-colors">
           Cada herramienta fue elegida por su robustez y capacidad de escalar junto a tu negocio.
         </p>
       </div>
@@ -104,8 +104,8 @@ onUnmounted(() => ctx?.revert())
           @click="activeCategory = activeCategory === cat.id ? null : cat.id"
           class="relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 border"
           :class="activeCategory === cat.id
-            ? 'bg-neutral-100 text-neutral-900 border-neutral-100 shadow-[0_0_20px_rgba(255,255,255,0.15)]'
-            : 'bg-neutral-900/60 text-neutral-400 border-neutral-800 hover:border-neutral-600 hover:text-neutral-200'"
+            ? 'bg-neutral-800 dark:bg-neutral-100 text-white dark:text-neutral-900 border-neutral-800 dark:border-neutral-100 shadow-md dark:shadow-[0_0_20px_rgba(255,255,255,0.15)]'
+            : 'bg-neutral-100 dark:bg-neutral-900/60 text-neutral-500 dark:text-neutral-400 border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-600 hover:text-neutral-800 dark:hover:text-neutral-200'"
         >
           {{ cat.label }}
         </button>
@@ -121,13 +121,13 @@ onUnmounted(() => ctx?.revert())
               :key="`r0-${i}`"
               @mouseenter="hoveredTech = tech"
               @mouseleave="hoveredTech = null"
-              class="group relative flex flex-col items-center justify-center w-24 h-24 rounded-2xl bg-neutral-900/60 border transition-all duration-500 cursor-pointer shrink-0"
+              class="group relative flex flex-col items-center justify-center w-24 h-24 rounded-2xl bg-neutral-50 dark:bg-neutral-900/60 border transition-all duration-500 cursor-pointer shrink-0"
               :class="[
                 (activeCategory === null || activeCategory === tech.cat)
-                  ? 'border-neutral-800 opacity-100'
-                  : 'border-neutral-900 opacity-20',
+                  ? 'border-neutral-200 dark:border-neutral-800 opacity-100'
+                  : 'border-neutral-100 dark:border-neutral-900 opacity-30 dark:opacity-20',
                 hoveredTech?.name === tech.name
-                  ? 'border-neutral-500 bg-neutral-800/80 scale-110 shadow-[0_0_30px_rgba(255,255,255,0.1)] z-10'
+                  ? 'border-neutral-300 dark:border-neutral-500 bg-white dark:bg-neutral-800/80 scale-110 shadow-xl dark:shadow-[0_0_30px_rgba(255,255,255,0.1)] z-10'
                   : ''
               ]"
             >
@@ -145,13 +145,13 @@ onUnmounted(() => ctx?.revert())
               :key="`r1-${i}`"
               @mouseenter="hoveredTech = tech"
               @mouseleave="hoveredTech = null"
-              class="group relative flex flex-col items-center justify-center w-24 h-24 rounded-2xl bg-neutral-900/60 border transition-all duration-500 cursor-pointer shrink-0"
+              class="group relative flex flex-col items-center justify-center w-24 h-24 rounded-2xl bg-neutral-50 dark:bg-neutral-900/60 border transition-all duration-500 cursor-pointer shrink-0"
               :class="[
                 (activeCategory === null || activeCategory === tech.cat)
-                  ? 'border-neutral-800 opacity-100'
-                  : 'border-neutral-900 opacity-20',
+                  ? 'border-neutral-200 dark:border-neutral-800 opacity-100'
+                  : 'border-neutral-100 dark:border-neutral-900 opacity-30 dark:opacity-20',
                 hoveredTech?.name === tech.name
-                  ? 'border-neutral-500 bg-neutral-800/80 scale-110 shadow-[0_0_30px_rgba(255,255,255,0.1)] z-10'
+                  ? 'border-neutral-300 dark:border-neutral-500 bg-white dark:bg-neutral-800/80 scale-110 shadow-xl dark:shadow-[0_0_30px_rgba(255,255,255,0.1)] z-10'
                   : ''
               ]"
             >
@@ -169,13 +169,13 @@ onUnmounted(() => ctx?.revert())
               :key="`r2-${i}`"
               @mouseenter="hoveredTech = tech"
               @mouseleave="hoveredTech = null"
-              class="group relative flex flex-col items-center justify-center w-24 h-24 rounded-2xl bg-neutral-900/60 border transition-all duration-500 cursor-pointer shrink-0"
+              class="group relative flex flex-col items-center justify-center w-24 h-24 rounded-2xl bg-neutral-50 dark:bg-neutral-900/60 border transition-all duration-500 cursor-pointer shrink-0"
               :class="[
                 (activeCategory === null || activeCategory === tech.cat)
-                  ? 'border-neutral-800 opacity-100'
-                  : 'border-neutral-900 opacity-20',
+                  ? 'border-neutral-200 dark:border-neutral-800 opacity-100'
+                  : 'border-neutral-100 dark:border-neutral-900 opacity-30 dark:opacity-20',
                 hoveredTech?.name === tech.name
-                  ? 'border-neutral-500 bg-neutral-800/80 scale-110 shadow-[0_0_30px_rgba(255,255,255,0.1)] z-10'
+                  ? 'border-neutral-300 dark:border-neutral-500 bg-white dark:bg-neutral-800/80 scale-110 shadow-xl dark:shadow-[0_0_30px_rgba(255,255,255,0.1)] z-10'
                   : ''
               ]"
             >
@@ -186,14 +186,13 @@ onUnmounted(() => ctx?.revert())
         </div>
       </div>
 
-      <!-- Hovered tech big display -->
       <Transition name="fade-up">
         <div v-if="hoveredTech" class="fixed bottom-12 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
-          <div class="flex items-center gap-4 bg-neutral-900/90 backdrop-blur-xl border border-neutral-700 rounded-2xl px-6 py-4 shadow-2xl">
+          <div class="flex items-center gap-4 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl border border-neutral-200 dark:border-neutral-700 rounded-2xl px-6 py-4 shadow-2xl transition-colors duration-300">
             <img :src="hoveredTech.icon" class="w-10 h-10" />
             <div>
-              <p class="text-white font-semibold text-lg leading-none">{{ hoveredTech.name }}</p>
-              <p class="text-neutral-400 text-sm mt-1">{{ categories[hoveredTech.cat]?.label }}</p>
+              <p class="text-neutral-900 dark:text-white font-semibold text-lg leading-none transition-colors">{{ hoveredTech.name }}</p>
+              <p class="text-neutral-500 dark:text-neutral-400 text-sm mt-1 transition-colors">{{ categories[hoveredTech.cat]?.label }}</p>
             </div>
           </div>
         </div>

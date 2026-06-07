@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/image",
     "shadcn-nuxt",
+    "@nuxtjs/color-mode",
   ],
   css: ["~/assets/css/main.css"],
   shadcn: {
