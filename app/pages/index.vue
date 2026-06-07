@@ -4,6 +4,8 @@ import Header from '~/components/Header.vue'
 import LightRays from '~/components/LightRays/LightRays.vue'
 import WhyCustom from '~/components/WhyCustom.vue'
 import SpecializedServices from '~/components/SpecializedServices.vue'
+import WorkMethodology from '~/components/WorkMethodology.vue'
+import TechStack from '~/components/TechStack.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import gsap from 'gsap'
 
@@ -99,6 +101,12 @@ onUnmounted(() => {
 
     <!-- Specialized Services Section -->
     <SpecializedServices />
+
+    <!-- Work Methodology Section -->
+    <WorkMethodology />
+
+    <!-- Tech Stack Section -->
+    <TechStack />
 
   </div>
 </template>
