@@ -6,6 +6,7 @@ import WhyCustom from '~/components/WhyCustom.vue'
 import SpecializedServices from '~/components/SpecializedServices.vue'
 import WorkMethodology from '~/components/WorkMethodology.vue'
 import TechStack from '~/components/TechStack.vue'
+import FAQ from '~/components/FAQ.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import gsap from 'gsap'
 
@@ -107,6 +108,9 @@ onUnmounted(() => {
 
     <!-- Tech Stack Section -->
     <TechStack />
+
+    <!-- FAQ Section -->
+    <FAQ />
 
   </div>
 </template>
