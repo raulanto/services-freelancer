@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Button } from '~/components/ui/button'
 import Header from '~/components/Header.vue'
 import LightRays from '~/components/LightRays/LightRays.vue'
 import WhyCustom from '~/components/WhyCustom.vue'
@@ -10,7 +9,7 @@ import AboutUs from '~/components/AboutUs.vue'
 import FAQ from '~/components/FAQ.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import gsap from 'gsap'
-
+import FooterPorta from '~/components/Footer.porta.vue'
 const heroSection = ref(null)
 const heroBg = ref(null)
 const heroContent = ref(null)
@@ -117,14 +116,17 @@ onUnmounted(() => {
     <!-- Why Custom Section -->
     <WhyCustom />
 
+
+    <!-- About Us Section -->
+    <AboutUs />
+
     <!-- Specialized Services Section -->
-    <SpecializedServices />
+    <SpecializedServices id="servicios" />
 
     <!-- Work Methodology Section -->
     <WorkMethodology />
 
-    <!-- About Us Section -->
-    <AboutUs />
+
 
     <!-- Tech Stack Section -->
     <TechStack />
@@ -133,4 +135,6 @@ onUnmounted(() => {
     <FAQ />
 
   </div>
+
+  <FooterPorta ></FooterPorta>  
 </template>

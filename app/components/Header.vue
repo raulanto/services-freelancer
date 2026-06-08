@@ -21,10 +21,10 @@ const toggleTheme = () => {
 
       <!-- Navigation Links -->
       <nav class="hidden md:flex items-center gap-4 text-sm font-medium text-neutral-600 dark:text-neutral-300">
-        <NuxtLink to="#" class="hover:text-neutral-900 dark:hover:text-white transition-colors">Servicios</NuxtLink>
-        <NuxtLink to="#" class="hover:text-neutral-900 dark:hover:text-white transition-colors">Sobre mi</NuxtLink>
-        <NuxtLink to="#" class="hover:text-neutral-900 dark:hover:text-white transition-colors">Proyectos</NuxtLink>
-        <NuxtLink to="#" class="hover:text-neutral-900 dark:hover:text-white transition-colors">Contacto</NuxtLink>
+        <NuxtLink to="#servicios" class="hover:text-neutral-900 dark:hover:text-white transition-colors">Servicios</NuxtLink>
+        <NuxtLink to="#nosotros" class="hover:text-neutral-900 dark:hover:text-white transition-colors">Sobre mi</NuxtLink>
+        <NuxtLink to="#proyectos" class="hover:text-neutral-900 dark:hover:text-white transition-colors">Proyectos</NuxtLink>
+        <NuxtLink to="#contacto" class="hover:text-neutral-900 dark:hover:text-white transition-colors">Contacto</NuxtLink>
       </nav>
 
       <div class="flex items-center gap-3">
