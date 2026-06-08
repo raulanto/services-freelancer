@@ -57,7 +57,7 @@ onUnmounted(() => {
     <Header />
 
     <!-- Hero Section -->
-    <section ref="heroSection" class="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center">
+    <section ref="heroSection" class="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-neutral-950">
         <!-- LightRays Component at the top -->
         <div class="absolute top-0 left-0 w-full h-full pointer-events-none z-0 mix-blend-screen opacity-70">
             <ClientOnly>
@@ -81,19 +81,36 @@ onUnmounted(() => {
                 class="w-full h-full object-cover mix-blend-screen opacity-60" />
         </div>
 
-        <!-- Hero Content -->
-        <main ref="heroContent" class="relative z-10 text-center px-4 max-w-4xl mt-24">
-            <h1 class="text-5xl md:text-7xl font-serif text-neutral-900 dark:text-neutral-100 tracking-tight leading-[1.1] mb-6 font-medium">
-                Código a medida para <span class="italic text-neutral-600 dark:text-neutral-300">negocios que escalan.</span>
+        <!-- Hero Content: bottom-left layout inspired by Astrael -->
+        <main ref="heroContent" class="absolute bottom-0 left-0 z-10 px-8 md:px-16 pb-16 md:pb-20 max-w-2xl text-left">
+
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-italic font-bold font-serif  text-white leading-[1.08] mb-6">
+                Código a medida para
+                <em class="not-italic italic font-light text-white/60">negocios que escalan.</em>
             </h1>
-            <p class="text-lg md:text-xl text-neutral-700 dark:text-neutral-100 mb-8 font-light max-w-2xl mx-auto">
-                Automatiza procesos y eleva tu presencia digital <br /> con desarrollo de software profesional.
+
+            <p class="text-base md:text-lg text-white/50 mb-10 font-light leading-relaxed max-w-md">
+                Automatiza procesos y eleva tu presencia digital con desarrollo de software profesional.
             </p>
 
-            <Button size="lg" variant="secondary"
-                class="rounded-full bg-white/80 dark:bg-neutral-800/80 backdrop-blur-sm text-neutral-900 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 border border-neutral-200 dark:border-neutral-700/50 px-6 h-12 text-base font-medium transition-all shadow-sm">
-                Comenzar proyecto
-            </Button>
+            <div class="flex items-center gap-6">
+                <!-- CTA principal con ícono de flecha -->
+                <button class="group flex items-center gap-3 bg-white text-neutral-900 rounded-full pl-6 pr-2 py-2 text-sm font-semibold hover:bg-neutral-100 transition-all duration-300 shadow-lg">
+                    Comenzar proyecto
+                    <span class="flex items-center justify-center w-8 h-8 bg-neutral-900 rounded-full text-white group-hover:bg-neutral-800 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5">
+                            <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06Z" clip-rule="evenodd" />
+                        </svg>
+                    </span>
+                </button>
+
+                <!-- Enlace secundario estilo texto -->
+                <button class="flex items-center gap-2 text-white/50 hover:text-white text-sm font-medium transition-colors duration-300 group">
+                    Ver proyectos
+                    <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </button>
+            </div>
+
         </main>
     </section>
 
