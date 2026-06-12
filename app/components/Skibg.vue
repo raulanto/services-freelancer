@@ -4,6 +4,7 @@
             v-for="particle in particles"
             :key="particle.id"
             class="particle"
+            :class="[colorTheme]"
             :style="{
         left: particle.x + '%',
         top: particle.y + '%',
@@ -15,42 +16,65 @@
         >
             <div
                 class="particle-tail"
-                :style="{
-          height: (particle.size * 3) + 'px'
-        }"
+                :class="[colorTheme]"
+                :style="{ height: (particle.size * 4) + 'px' }"
             ></div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { shallowRef, triggerRef, onMounted, onUnmounted } from 'vue'
+import { shallowRef, triggerRef, onMounted, onUnmounted, ref } from 'vue'
+
+const props = defineProps({
+  colorTheme: {
+    type: String,
+    default: 'neutral' // 'neutral', 'saas', 'custom'
+  }
+})
 
 interface Particle {
     id: number
     x: number
     y: number
+    vx: number
+    vy: number
     size: number
     speed: number
     opacity: number
     rotation: number
+    baseX: number
 }
 
 const particles = shallowRef<Particle[]>([])
 const animationId = shallowRef<number | null>(null)
 
-const PARTICLE_COUNT = 15
-const PARTICLE_SIZE = { min: 2, max: 2 }
-const FALL_SPEED = { min: 0.5, max: 1 }
+// Increase presence: more particles, bigger size, faster
+const PARTICLE_COUNT = 35
+const PARTICLE_SIZE = { min: 3, max: 7 }
+const FALL_SPEED = { min: 1.0, max: 2.0 }
+
+// Mouse interaction tracking
+const mouseX = ref(-100)
+const mouseY = ref(-100)
+
+const onMouseMove = (e: MouseEvent) => {
+    mouseX.value = (e.clientX / window.innerWidth) * 100
+    mouseY.value = (e.clientY / window.innerHeight) * 100
+}
 
 const createParticle = (): Particle => {
+    const x = Math.random() * 100
     return {
         id: Math.random(),
-        x: Math.random() * 100,
+        x: x,
+        baseX: x,
         y: 110, // Start below the container
+        vx: 0,
+        vy: 0,
         size: Math.random() * (PARTICLE_SIZE.max - PARTICLE_SIZE.min) + PARTICLE_SIZE.min,
         speed: Math.random() * (FALL_SPEED.max - FALL_SPEED.min) + FALL_SPEED.min,
-        opacity: Math.random() * 0.4 + 0.1, // More subtle
+        opacity: Math.random() * 0.5 + 0.3, // Brighter
         rotation: Math.random() * 360
     }
 }
@@ -67,26 +91,53 @@ const initParticles = (): void => {
 
 const animate = (): void => {
     const currentParticles = particles.value
+    
     for (let i = 0; i < currentParticles.length; i++) {
         const particle = currentParticles[i]
-        particle.y -= particle.speed // Move upwards
-        particle.rotation += 2
+        
+        // Base upward movement
+        particle.y -= particle.speed
+        particle.rotation += 1.5
 
-        if (particle.y < -10) {
+        // Mouse interaction (Repulsion effect)
+        const dx = particle.x - mouseX.value
+        const dy = particle.y - mouseY.value
+        const distance = Math.sqrt(dx * dx + dy * dy)
+        
+        // Repel if mouse is close (distance is in % relative to screen)
+        if (distance < 12) {
+            const force = (12 - distance) / 12
+            particle.vx += (dx / distance) * force * 0.8
+            particle.vy += (dy / distance) * force * 0.8
+        }
+        
+        // Apply velocity and damping (friction)
+        particle.x += particle.vx
+        particle.y += particle.vy
+        particle.vx *= 0.85
+        particle.vy *= 0.85
+        
+        // Gently drift back to baseX to avoid clumping
+        particle.x += (particle.baseX - particle.x) * 0.02
+
+        // Reset particle if it goes off screen
+        if (particle.y < -10 || particle.x < -10 || particle.x > 110) {
             currentParticles[i] = createParticle()
         }
     }
-    triggerRef(particles) // Trigger update since we use shallowRef
+    triggerRef(particles)
 
     animationId.value = requestAnimationFrame(animate)
 }
 
 onMounted(() => {
+    window.addEventListener('mousemove', onMouseMove)
     initParticles()
     animate()
 })
 
 onUnmounted(() => {
+    window.removeEventListener('mousemove', onMouseMove)
     if (animationId.value) {
         cancelAnimationFrame(animationId.value)
     }
@@ -95,7 +146,7 @@ onUnmounted(() => {
 
 <style scoped>
 .particle-container {
-    position: absolute; /* Only inside the parent section */
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -107,54 +158,71 @@ onUnmounted(() => {
 .particle {
     position: absolute;
     border-radius: 50%;
-    background: linear-gradient(135deg, #e5e5e5, #a3a3a3, #737373); /* Neutral colors */
-    box-shadow:
-        0 0 10px rgba(163, 163, 163, 0.4),
-        0 0 20px rgba(163, 163, 163, 0.2);
     animation: twinkle 2s infinite alternate;
-    transition: transform 0.1s;
-    will-change: top, left, transform; /* Performance optimization */
+    transition: background 0.8s ease, box-shadow 0.8s ease;
+    will-change: top, left, transform;
+}
+
+/* Neutral Theme */
+.particle.neutral {
+    background: linear-gradient(135deg, #e5e5e5, #a3a3a3);
+    box-shadow: 0 0 15px rgba(163, 163, 163, 0.6);
+}
+.particle-tail.neutral {
+    background: linear-gradient(to bottom, #a3a3a3, transparent);
+}
+
+/* SaaS Theme (Red) */
+.particle.saas {
+    background: linear-gradient(135deg, #fca5a5, #ef4444);
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.9);
+}
+.particle-tail.saas {
+    background: linear-gradient(to bottom, #ef4444, transparent);
+}
+
+/* Custom Theme (Blue) */
+.particle.custom {
+    background: linear-gradient(135deg, #93c5fd, #3b82f6);
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+}
+.particle-tail.custom {
+    background: linear-gradient(to bottom, #3b82f6, transparent);
 }
 
 .particle-tail {
     position: absolute;
-    bottom: -16px; /* Tail goes downwards */
+    bottom: -8px;
     left: 50%;
     width: 2px;
-    opacity: 0.4;
-    background: linear-gradient(to bottom, #a3a3a3, transparent); /* Neutral tail */
+    opacity: 0.6;
     transform: translateX(-50%);
+    transition: background 0.8s ease;
 }
 
 .particle::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(163, 163, 163, 0.6) 0%, transparent 70%); /* Neutral glow */
-    animation: pulse 1.5s infinite;
+    animation: pulse 2s infinite;
+    transition: background 0.8s ease;
 }
 
+.particle.neutral::before { background: radial-gradient(circle, rgba(163, 163, 163, 0.4) 0%, transparent 70%); }
+.particle.saas::before { background: radial-gradient(circle, rgba(239, 68, 68, 0.4) 0%, transparent 70%); }
+.particle.custom::before { background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%); }
+
 @keyframes twinkle {
-    0% {
-        filter: brightness(1);
-    }
-    100% {
-        filter: brightness(1.3);
-    }
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.5); }
 }
 
 @keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-        opacity: 0.6;
-    }
-    50% {
-        transform: scale(1.2);
-        opacity: 0.3;
-    }
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.5); opacity: 0.3; }
 }
 </style>

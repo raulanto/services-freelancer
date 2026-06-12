@@ -9,13 +9,33 @@ import AboutUs from '~/components/AboutUs.vue'
 import FAQ from '~/components/FAQ.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import gsap from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
 import FooterPorta from '~/components/Footer.porta.vue'
+import Lenis from 'lenis'
+
+gsap.registerPlugin(ScrollTrigger)
+
 const heroSection = ref(null)
 const heroBg = ref(null)
 const heroContent = ref(null)
 let ctx: gsap.Context
+let lenis: Lenis
 
 onMounted(() => {
+  // Configuración de Scroll Suave con Lenis
+  lenis = new Lenis({
+    lerp: 0.08,
+    smoothWheel: true,
+  })
+
+  lenis.on('scroll', ScrollTrigger.update)
+
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000)
+  })
+
+  gsap.ticker.lagSmoothing(0)
+
   ctx = gsap.context(() => {
     // Parallax para la imagen de fondo
     gsap.to(heroBg.value, {
@@ -46,6 +66,9 @@ onMounted(() => {
 
 onUnmounted(() => {
   ctx?.revert()
+  if (lenis) {
+    lenis.destroy()
+  }
 })
 </script>
 
@@ -81,18 +104,18 @@ onUnmounted(() => {
         </div>
 
         <!-- Hero Content: bottom-left layout inspired by Astrael -->
-        <main ref="heroContent" class="absolute bottom-0 left-0 z-10 px-8 md:px-16 pb-16 md:pb-20 max-w-2xl text-left">
+        <main ref="heroContent" class="absolute bottom-0 left-0 z-10 px-8 md:px-16 pb-32 md:pb-40 w-full text-center">
 
             <h1 class="text-5xl md:text-6xl lg:text-7xl font-italic font-bold font-serif  text-white leading-[1.08] mb-6">
                 Código a medida para
                 <em class="not-italic italic font-light text-white/60">negocios que escalan.</em>
             </h1>
 
-            <p class="text-base md:text-lg text-white/50 mb-10 font-light leading-relaxed max-w-md">
+            <p class="text-base text-center md:text-lg text-white/50 mb-10 font-light leading-relaxed ">
                 Automatiza procesos y eleva tu presencia digital con desarrollo de software profesional.
             </p>
 
-            <div class="flex items-center gap-6">
+            <div class="flex items-center gap-6 justify-center">
                 <!-- CTA principal con ícono de flecha -->
                 <button class="group flex items-center gap-3 bg-white text-neutral-900 rounded-full pl-6 pr-2 py-2 text-sm font-semibold hover:bg-neutral-100 transition-all duration-300 shadow-lg">
                     Comenzar proyecto
